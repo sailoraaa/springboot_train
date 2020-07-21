@@ -33,12 +33,13 @@ public class UserController {
     @ApiOperation(value="创建用户", notes="根据姓名和电子邮箱创建用户")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "用户姓名", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "email", value = "电子邮箱", required = true, dataType = "String")
+            @ApiImplicitParam(name = "email", value = "电子邮箱", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "password")
     })
      @GetMapping("/add")
     public int add(@RequestParam(value = "name") String name
-            ,@RequestParam(value = "email") String email){
-        User u = new User(name,email);
+            ,@RequestParam(value = "email") String email,@RequestParam(value = "password") String password){
+        User u = new User(name,email,password);
         return userMapper.add(u);
     }
 
@@ -53,13 +54,15 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "int"),
             @ApiImplicitParam(name = "name", value = "用户姓名", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "email", value = "电子邮箱", required = true, dataType = "String")
+            @ApiImplicitParam(name = "email", value = "电子邮箱", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
     })
     @GetMapping("/update")
     public int update(@RequestParam(value = "id") Integer id
             ,@RequestParam(value = "name",required = true) String name
-            ,@RequestParam(value = "email",required = true) String email){
-        User u = new User(name,email);
+            ,@RequestParam(value = "email",required = true) String email
+            ,@RequestParam(value = "password",required = true) String password){
+        User u = new User(name,email,password);
         u.setId(id);
         return userMapper.update(u);
     }
