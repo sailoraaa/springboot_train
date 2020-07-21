@@ -12,20 +12,27 @@
     <select id="findById" resultMap="BaseResultMap">
         select * from user where id = #{id}
     </select>
+    <select id="findByEmail" resultMap="BaseResultMap">
+        select * from user where email = #{email}
+    </select>
     <select id="findAll" resultMap="BaseResultMap">
         select * from user
     </select>
     <insert id="add" parameterType="com.example.bean.User" useGeneratedKeys="true" keyProperty="id">
         insert into User ( id,name,email)
         values ( #{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR}
-        ,#{password,jdbcType=VARCHAR}
+        ,#{password,jdbcType=VARCHAR},#{loginid,jdbcType=VARCHAR}
         )
     </insert>
     <delete id="delete">
         delete from user where id=#{id,jdbcType=INTEGER}
     </delete>
     <update id="update"  parameterType="com.example.bean.User">
-         update user SET name=#{name},email=#{email},password=#{password}
+         update user SET name=#{name}
          where id=#{id}
+    </update>
+    <update id="updatePassword"  parameterType="com.example.bean.User">
+         update user SET password=#{password}
+         where email=#{email}
     </update>
 </mapper>

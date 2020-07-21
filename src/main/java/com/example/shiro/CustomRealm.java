@@ -46,14 +46,14 @@ public class CustomRealm extends AuthorizingRealm {
             return null;
         }
         //获取用户信息
-        String name = authenticationToken.getPrincipal().toString();
-        User user = loginService.getUserByName(name);
+        String inputEmail = authenticationToken.getPrincipal().toString();
+        User user = loginService.getUserByName(inputEmail);
         if (user == null) {
             //这里返回后会报出对应异常
             return null;
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
-            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
+            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(inputEmail, user.getPassword().toString(), getName());
             return simpleAuthenticationInfo;
         }
     }

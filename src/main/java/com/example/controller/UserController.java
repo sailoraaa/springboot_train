@@ -30,6 +30,13 @@ public class UserController {
         return userMapper.findById(id);
     }
 
+    @ApiOperation(value="查找用户", notes="根据用户的电子邮箱来指定删除对象")
+    @ApiImplicitParam(name = "email", value = "电子邮箱", required = true, dataType = "String")
+    @GetMapping("/findByEmail")
+    public User findByEmail(@RequestParam(value = "email") String email){
+        return userMapper.findByEmail(email);
+    }
+
     @ApiOperation(value="创建用户", notes="根据姓名和电子邮箱创建用户")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "用户姓名", required = true, dataType = "String"),
@@ -66,4 +73,24 @@ public class UserController {
         u.setId(id);
         return userMapper.update(u);
     }
+
+    @ApiOperation(value="更新密码", notes="根据电子邮箱、旧密码、新密码来更新密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "电子邮箱", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "newPassword", value = "新密码", required = true, dataType = "String")
+    })
+    @GetMapping("/updatePassword")
+    public int updatePassword(@RequestParam(value = "email") String email
+            ,@RequestParam(value = "oldPassword") String oldPassword
+                            ,@RequestParam(value = "newPassword") String newPassword){
+        User u = userMapper.findByEmail(email);
+        if(u.getPassword().equals(oldPassword)){
+            u.setPassword(newPassword);
+            return userMapper.updatePassword(u);
+        }else{
+            return 0;
+        }
+    }
+
 }

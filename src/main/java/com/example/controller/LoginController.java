@@ -9,8 +9,13 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class LoginController {
@@ -20,7 +25,7 @@ public class LoginController {
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                user.getName(),
+                user.getEmail(),
                 user.getPassword()
         );
         try {
@@ -43,5 +48,13 @@ public class LoginController {
     @RequestMapping("/index")
     public String index() {
         return "index!";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session, Model model) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        model.addAttribute("msg","安全退出！");
+        return "login";
     }
 }

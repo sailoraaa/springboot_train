@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+//@Configuration    开发期间暂时关闭登陆限制，否则每次都登陆很麻烦
 public class ShiroConfig {
 
     @Bean
@@ -46,7 +46,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> map = new HashMap<>();
         //登出
-        map.put("/logout", "logout");
+//        map.put("/logout", "logout");
         //对所有用户认证
         map.put("/**", "authc");
         //登录
